@@ -34,8 +34,7 @@ app.use('/weather/', weatherRoute)
 
 app.use(function(req, res){
     res.status(400).send({
-        status: 'failure',
-        message: 'URL inválida.'
+        content: 'URL inválida'
     })
 })
 
