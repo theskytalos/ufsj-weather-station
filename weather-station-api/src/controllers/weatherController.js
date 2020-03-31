@@ -33,10 +33,10 @@ exports.newWeather = (req, res, next) => {
 
     weatherModel.create(weather, (err, stocks) => {
         if (err) {
-            res.status(500).send({ content: 'Não foi possível persistir os dados meteorológicos.' })
+            res.status(200).send({ success: false, content: 'Não foi possível persistir os dados meteorológicos.' })
             console.log(err)
         } else
-            res.status(200).send({ content: 'Dados meteorológicos persistidos com sucesso.' })
+            res.status(200).send({ success: true, content: 'Dados meteorológicos persistidos com sucesso.' })
     })
 
     weatherBuffer = [weather.dateTime, weather.temp, weather.umidity, weather.raining, weather.uvIndex]
@@ -44,17 +44,17 @@ exports.newWeather = (req, res, next) => {
 
 exports.getCurrentWeather = (req, res, next) => {
     if (weatherBuffer.length != 0)
-        res.status(200).send({ content: { weather: { dateTime: weatherBuffer.dateTime, temp: weatherBuffer.temp, umidity: weatherBuffer.umidity, raining: weatherBuffer.raining, uvIndex: weatherBuffer.uvIndex } } })
+        res.status(200).send({ success: true, content: { weather: { dateTime: weatherBuffer.dateTime, temp: weatherBuffer.temp, umidity: weatherBuffer.umidity, raining: weatherBuffer.raining, uvIndex: weatherBuffer.uvIndex } } })
     else {
         weatherModel.findOne({}, {}, { sort: { 'dateTime': -1 } }, (err, weather) => {
             if (err) {
-                res.status(500).send({ content: 'Não foi possível persistir os dados meteorológicos.' })
+                res.status(200).send({ success: false, content: 'Não foi possível recuperar os dados meteorológicos.' })
                 console.log(err)
             } else
                 if (weather)
-                    res.status(200).send({ content: { weather: { dateTime: weather.dateTime, temp: weather.temp, umidity: weather.umidity, raining: weather.raining, uvIndex: weather.uvIndex } } })
+                    res.status(200).send({ success: true, content: { weather: { dateTime: weather.dateTime, temp: weather.temp, umidity: weather.umidity, raining: weather.raining, uvIndex: weather.uvIndex } } })
                 else
-                    res.status(500).send({ content: 'Não foi possível recuperar os dados meteorológicos.' })
+                    res.status(200).send({ success: false, content: 'Não foi possível recuperar os dados meteorológicos.' })
         })
     }
 }
@@ -68,19 +68,19 @@ exports.getWeather = (req, res, next) => {
 
     weatherModel.find({ dateTime: date }, (err, weatherList) => {
         if (err) {
-            res.status(500).send({ content: `Não foi possível recuperar o histórico de dados meteorológicos para o dia ${day}/${month}/${year}.` })
+            res.status(200).send({ success: false, content: `Não foi possível recuperar o histórico de dados meteorológicos para o dia ${day}/${month}/${year}.` })
             console.log(err)
         } else
-            res.status(200).send({ content: weatherList })
+            res.status(200).send({ success: true, content: weatherList })
     })
 }
 
 exports.getWeatherHistory = (req, res, next) => {
     weatherModel.find({}, (err, weatherList) => {
         if (err) {
-            res.status(500).send({ content: 'Não foi possível recuperar o histórico de dados meteorológicos.' })
+            res.status(200).send({ success: false, content: 'Não foi possível recuperar o histórico de dados meteorológicos.' })
             console.log(err)
         } else
-            res.status(200).send({ content: weatherList })
+            res.status(200).send({ success: true, content: weatherList })
     })
 }

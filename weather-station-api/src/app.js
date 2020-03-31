@@ -32,8 +32,9 @@ const weatherRoute = require('./routes/weatherRoute')
 app.use('/', index)
 app.use('/weather/', weatherRoute)
 
-app.use(function(req, res){
-    res.status(400).send({
+app.use((req, res) => {
+    res.status(200).send({
+        success: false,
         content: 'URL inválida'
     })
 })
