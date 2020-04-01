@@ -29,7 +29,8 @@ const weatherSchema = mongoose.Schema({
 const weatherModel = mongoose.model('Weather', weatherSchema)
 
 exports.newWeather = (req, res, next) => {
-    const weather = Object.assign(weather, req.body)
+    console.log(req.body)
+    const weather = Object.assign({}, req.body)
 
     weatherModel.create(weather, (err, stocks) => {
         if (err) {
@@ -51,9 +52,9 @@ exports.getCurrentWeather = (req, res, next) => {
                 res.status(200).send({ success: false, content: 'Não foi possível recuperar os dados meteorológicos.' })
                 console.log(err)
             } else
-                if (weather)
+                if (weather) {
                     res.status(200).send({ success: true, content: { weather: { dateTime: weather.dateTime, temp: weather.temp, umidity: weather.umidity, raining: weather.raining, uvIndex: weather.uvIndex } } })
-                else
+                } else
                     res.status(200).send({ success: false, content: 'Não foi possível recuperar os dados meteorológicos.' })
         })
     }
