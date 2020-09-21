@@ -1,11 +1,11 @@
 #include <DHT_U.h>
 #include <DHT.h>
 
-#define REF_3V3 A1
+#define REF_3V3 A2
 
 #define DHT_22_PIN 2
-#define ML_8511_PIN A0
-#define YL_38_PIN 4
+#define YL_38_PIN A0
+#define ML_8511_PIN A1
 
 #define DHTTYPE DHT22
 
@@ -15,10 +15,12 @@ float temperature;
 float humidity;
 int uvLevel;
 int refLevel;
+int rain;
 
 void setup()
 {
   Serial.begin(9600);
+  pinMode(YL_38_PIN, INPUT);
   pinMode(ML_8511_PIN, INPUT);
   pinMode(REF_3V3, INPUT);
   dht.begin();
@@ -28,6 +30,7 @@ void loop()
 {
   temperature = dht.readTemperature();
   humidity = dht.readHumidity();
+  rain = analogRead(YL_38_PIN);
   uvLevel = averageAnalogRead(ML_8511_PIN);
   refLevel = averageAnalogRead(REF_3V3);
 
@@ -39,12 +42,15 @@ void loop()
   Serial.print("Temperatura: ");
   Serial.print(temperature);
   Serial.println("°C");
-  Serial.print("Humidade: ");
+  Serial.print("Umidade: ");
   Serial.print(humidity);
   Serial.println("%");
+  Serial.print("Coef. Molhado: ");
+  Serial.println(rain);
   Serial.print("Intensidade UV: ");
   Serial.print(uvIntensity);
-  Serial.println("mW/cm^2");  
+  Serial.println("mW/cm²");
+  Serial.println("----------------------------------------");
   delay(2000);
 }
 
