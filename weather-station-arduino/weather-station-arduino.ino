@@ -1,11 +1,11 @@
 #include <DHT_U.h>
 #include <DHT.h>
 
-#define REF_3V3 A2
-
-#define DHT_22_PIN 2
+#define DHT_22_PIN 4
 #define YL_38_PIN A0
 #define ML_8511_PIN A1
+
+#define REF_3V3 A2
 
 #define DHTTYPE DHT22
 
