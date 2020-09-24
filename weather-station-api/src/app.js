@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 // MongoDB connection
-mongoose.set('useFindAndModify', false);
+mongoose.set('useFindAndModify', false)
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost/ufsj-weather-station-db', { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => {
