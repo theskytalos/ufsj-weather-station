@@ -12,13 +12,11 @@ const weatherValidationSchema = Joi.object({
             'any.required': 'O campo "temp" é obrigatório.'
         }),
     humidity: Joi.number()
-        .integer()
         .min(0)
         .max(100)
         .required()
         .messages({
             'number.base': 'O campo "humidity" deve ser numérico.',
-            'number.integer': 'O campo "humidity" deve ser inteiro.',
             'number.min': 'O campo "humidity" não pode ser menor do que 0.',
             'number.max': 'O campo "humidity" não pode ser maior do que 100.',
             'any.required': 'O campo "humidity" é obrigatório.'
